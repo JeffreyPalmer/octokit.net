@@ -11,12 +11,6 @@ public class TestSourceLink : FrostingTask<Context>
 {
     public override void Run(Context context)
     {
-        context.StartProcess("dotnet", new ProcessSettings
-        {
-            WorkingDirectory = "Octokit",
-            Arguments = $"tool list"
-        });
-
         var nugetPackages = context.GetFiles($"./{context.Artifacts}/*.nupkg");
 
         foreach (var nugetPackage in nugetPackages)
