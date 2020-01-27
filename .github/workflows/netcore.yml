@@ -18,6 +18,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
+    - name: Tell me all your secrets
+      run: git config -l --show-origin
+      shell: bash
     - name: Set core.autocrlf before cloning
       run: git config --global core.autocrlf input
       shell: bash
