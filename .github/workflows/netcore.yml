@@ -22,7 +22,7 @@ jobs:
       run: git config -l --show-origin
       shell: bash
     - name: Set core.autocrlf before cloning
-      run: git config --global core.autocrlf input
+      run: git config --global core.autocrlf off
       shell: bash
     - uses: actions/checkout@v1
     - name: Setup .NET Core
