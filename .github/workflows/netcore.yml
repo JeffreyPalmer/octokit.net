@@ -18,6 +18,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
+    - name: Set core.autocrlf before cloning
+      run: git config --global core.autocrlf input
+      shell: bash
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1.4.0
