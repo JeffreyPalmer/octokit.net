@@ -6,12 +6,12 @@ namespace Octokit
 {
     public interface IWorkflowsClient
     {
-        Task<IReadOnlyList<Workflow>> GetAll(string owner, string name);
+        Task<WorkflowsResponse> GetAll(string owner, string name);
 
-        Task<IReadOnlyList<Workflow>> GetAll(long repositoryId);
+        Task<WorkflowsResponse> GetAll(long repositoryId);
 
-        Task<IReadOnlyList<Workflow>> GetAll(string owner, string name, ApiOptions options);
+        Task<WorkflowsResponse> GetAll(string owner, string name, ApiOptions options);
 
-        Task<IReadOnlyList<Workflow>> GetAll(long repositoryId, ApiOptions options);
+        Task<WorkflowsResponse> GetAll(long repositoryId, ApiOptions options);
     }
 }

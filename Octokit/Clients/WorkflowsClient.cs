@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Octokit
@@ -10,7 +11,7 @@ namespace Octokit
         {
         }
 
-        public Task<IReadOnlyList<Workflow>> GetAll(string owner, string name)
+        public Task<WorkflowsResponse> GetAll(string owner, string name)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
@@ -18,25 +19,31 @@ namespace Octokit
             return GetAll(owner, name, ApiOptions.None);
         }
 
-        public Task<IReadOnlyList<Workflow>> GetAll(long repositoryId)
+        public Task<WorkflowsResponse> GetAll(long repositoryId)
         {
             return GetAll(repositoryId, ApiOptions.None);
         }
 
-        public Task<IReadOnlyList<Workflow>> GetAll(string owner, string name, ApiOptions options)
+        public async Task<WorkflowsResponse> GetAll(string owner, string name, ApiOptions options)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return ApiConnection.GetAll<Workflow>(ApiUrls.Workflows(owner, name), options);
+            var results = await ApiConnection.GetAll<WorkflowsResponse>(ApiUrls.Workflows(owner, name), options).ConfigureAwait(false);
+            return new WorkflowsResponse(
+                results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
+                results.SelectMany(x => x.Workflows).ToList());
         }
 
-        public Task<IReadOnlyList<Workflow>> GetAll(long repositoryId, ApiOptions options)
+        public async Task<WorkflowsResponse> GetAll(long repositoryId, ApiOptions options)
         {
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return ApiConnection.GetAll<Workflow>(ApiUrls.Workflows(repositoryId), options);
+            var results = await ApiConnection.GetAll<WorkflowsResponse>(ApiUrls.Workflows(repositoryId), options).ConfigureAwait(false);
+            return new WorkflowsResponse(
+                results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
+                results.SelectMany(x => x.Workflows).ToList());
         }
 
     }

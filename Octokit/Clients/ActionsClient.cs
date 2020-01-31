@@ -4,8 +4,7 @@
     {
         public ActionsClient(ApiConnection apiConnection)
         {
-            // Workflow = new WorkflowsClient(apiConnection);
-            Workflow = new Workflow(apiConnection);
+            Workflow = new WorkflowsClient(apiConnection);
         }
 
         public IWorkflowsClient Workflow { get; private set; }

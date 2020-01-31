@@ -17,7 +17,7 @@ namespace Octokit.Reactive
             _workflow = client.Action.Workflow;
         }
 
-        public IObservable<Workflow> GetAll(string owner, string name)
+        public IObservable<WorkflowsResponse> GetAll(string owner, string name)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
@@ -25,25 +25,25 @@ namespace Octokit.Reactive
             return GetAll(owner, name, ApiOptions.None);
         }
 
-        public IObservable<Workflow> GetAll(long repositoryId)
+        public IObservable<WorkflowsResponse> GetAll(long repositoryId)
         {
             throw new NotImplementedException();
         }
 
-        public IObservable<Workflow> GetAll(string owner, string name, ApiOptions options)
+        public IObservable<WorkflowsResponse> GetAll(string owner, string name, ApiOptions options)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return _connection.GetAndFlattenAllPages<Workflow>(ApiUrls.Workflows(owner, name), options);
+            return _connection.GetAndFlattenAllPages<WorkflowsResponse>(ApiUrls.Workflows(owner, name), options);
         }
 
-        public IObservable<Workflow> GetAll(long repositoryId, ApiOptions options)
+        public IObservable<WorkflowsResponse> GetAll(long repositoryId, ApiOptions options)
         {
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return _connection.GetAndFlattenAllPages<Workflow>(ApiUrls.Workflows(repositoryId), options);
+            return _connection.GetAndFlattenAllPages<WorkflowsResponse>(ApiUrls.Workflows(repositoryId), options);
         }
     }
 }

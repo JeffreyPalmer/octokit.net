@@ -111,6 +111,7 @@ namespace Octokit
             User = new UsersClient(apiConnection);
             Reaction = new ReactionsClient(apiConnection);
             Check = new ChecksClient(apiConnection);
+            Action = new ActionsClient(apiConnection);
         }
 
         /// <summary>
