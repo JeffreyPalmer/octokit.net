@@ -4156,5 +4156,27 @@ namespace Octokit
         {
             return "repos/{0}/{1}/check-suites/preferences".FormatUri(owner, repo);
         }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri Workflows(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/workflows".FormatUri(owner, repo);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri Workflows(long repositoryId)
+        {
+            return "repositories/{0}/actions/workflows".FormatUri(repositoryId);
+        }
+
     }
 }

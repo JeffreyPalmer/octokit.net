@@ -305,6 +305,14 @@ namespace Octokit
         /// </remarks>
         public IChecksClient Check { get; private set; }
 
+        /// <summary>
+        /// Access GitHub's Actions API
+        /// </summary>
+        /// <remarks>
+        /// Refer to the API documentation for more information: https://developer.github.com/v3/actions/
+        /// </remarks>
+        public IActionsClient Action { get; private set; }
+
         static Uri FixUpBaseUri(Uri uri)
         {
             Ensure.ArgumentNotNull(uri, nameof(uri));
