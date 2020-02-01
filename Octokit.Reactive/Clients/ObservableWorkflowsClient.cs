@@ -7,14 +7,14 @@ namespace Octokit.Reactive
     public class ObservableWorkflowsClient : IObservableWorkflowsClient
     {
         readonly IConnection _connection;
-        readonly IWorkflowsClient _workflow;
+        readonly IWorkflowsClient _client;
 
         public ObservableWorkflowsClient(IGitHubClient client)
         {
             Ensure.ArgumentNotNull(client, nameof(client));
 
             _connection = client.Connection;
-            _workflow = client.Action.Workflow;
+            _client = client.Action.Workflow;
         }
 
         public IObservable<WorkflowsResponse> GetAll(string owner, string name)
@@ -45,5 +45,36 @@ namespace Octokit.Reactive
 
             return _connection.GetAndFlattenAllPages<WorkflowsResponse>(ApiUrls.Workflows(repositoryId), options);
         }
+
+        public IObservable<Workflow> Get(string owner, string name, long workflowId)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+
+            return _client.Get(owner, name, workflowId).ToObservable();
+        }
+
+        public IObservable<Workflow> Get(string owner, string name, string workflowFileName)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNullOrEmptyString(workflowFileName, nameof(workflowFileName));
+
+            return _client.Get(owner, name, workflowFileName).ToObservable();
+        }
+
+        public IObservable<Workflow> Get(long repositoryId, long workflowId)
+        {
+            return _client.Get(repositoryId, workflowId).ToObservable();
+        }
+
+        public IObservable<Workflow> Get(long repositoryId, string workflowFileName)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(workflowFileName, nameof(workflowFileName));
+
+            return _client.Get(repositoryId, workflowFileName).ToObservable();
+        }
+
+
     }
 }

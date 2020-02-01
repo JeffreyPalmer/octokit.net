@@ -41,7 +41,8 @@ namespace Octokit.Tests.Reactive
 
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAll(null, "name", options).ToTask());
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAll("owner", null, options).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAll("owner", "name", null).ToTask());
+
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAll(1, null).ToTask());
             }
 
             [Fact]
@@ -53,6 +54,70 @@ namespace Octokit.Tests.Reactive
 
                 client.GetAll("fake", "repo", options);
                 githubClient.Received().Action.Workflow.GetAll("fake", "repo", options);
+            }
+
+            [Fact]
+            public void GetsCorrectUrlWithRepositoryId()
+            {
+                var githubClient = Substitute.For<IGitHubClient>();
+                var client = new ObservableWorkflowsClient(githubClient);
+                var options = new ApiOptions();
+
+                client.GetAll(1, options);
+                githubClient.Received().Action.Workflow.GetAll(1, options);
+            }
+        }
+
+        public class TheGetMethod
+        {
+            [Fact]
+            public async Task EnsuresNonEmptyArguments()
+            {
+                var githubClient = Substitute.For<IGitHubClient>();
+                var client = new ObservableWorkflowsClient(githubClient);
+
+                // get by workflowFileName
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("", "name", "workflow.yml").ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "", "workflow.yml").ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "name", "").ToTask());
+
+                // get by workflowId
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get(1, "").ToTask());
+            }
+
+            [Fact]
+            public async Task EnsuresNonNullArguments()
+            {
+                var githubClient = Substitute.For<IGitHubClient>();
+                var client = new ObservableWorkflowsClient(githubClient);
+
+                // get by workflowFileName
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(null, "name", "workflow.yml").ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", null, "workflow.yml").ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", "name", null).ToTask());
+
+                // get by workflowId
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(1, null).ToTask());
+            }
+
+            [Fact]
+            public void GetsCorrectUrlWithWorkflowId()
+            {
+                var githubClient = Substitute.For<IGitHubClient>();
+                var client = new ObservableWorkflowsClient(githubClient);
+
+                client.Get("fake", "repo", 1);
+                githubClient.Received().Action.Workflow.Get("fake", "repo", 1);
+            }
+
+            [Fact]
+            public void GetsCorrectUrlWithWorkflowFileName()
+            {
+                var githubClient = Substitute.For<IGitHubClient>();
+                var client = new ObservableWorkflowsClient(githubClient);
+
+                client.Get("fake", "repo", "workflow.yml");
+                githubClient.Received().Action.Workflow.Get("fake", "repo", "workflow.yml");
             }
         }
     }

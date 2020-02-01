@@ -10,7 +10,6 @@ namespace Octokit
             : base(apiConnection)
         {
         }
-
         public Task<WorkflowsResponse> GetAll(string owner, string name)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
@@ -18,7 +17,6 @@ namespace Octokit
 
             return GetAll(owner, name, ApiOptions.None);
         }
-
         public Task<WorkflowsResponse> GetAll(long repositoryId)
         {
             return GetAll(repositoryId, ApiOptions.None);
@@ -46,5 +44,33 @@ namespace Octokit
                 results.SelectMany(x => x.Workflows).ToList());
         }
 
+        public Task<Workflow> Get(string owner, string name, long workflowId)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+
+            return ApiConnection.Get<Workflow>(ApiUrls.Workflow(owner, name, workflowId));
+        }
+
+        public Task<Workflow> Get(string owner, string name, string workflowFileName)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNullOrEmptyString(workflowFileName, nameof(workflowFileName));
+
+            return ApiConnection.Get<Workflow>(ApiUrls.Workflow(owner, name, workflowFileName));
+        }
+
+        public Task<Workflow> Get(long repositoryId, long workflowId)
+        {
+            return ApiConnection.Get<Workflow>(ApiUrls.Workflow(repositoryId, workflowId));
+        }
+
+        public Task<Workflow> Get(long repositoryId, string workflowFileName)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(workflowFileName, nameof(workflowFileName));
+
+            return ApiConnection.Get<Workflow>(ApiUrls.Workflow(repositoryId, workflowFileName));
+        }
     }
 }

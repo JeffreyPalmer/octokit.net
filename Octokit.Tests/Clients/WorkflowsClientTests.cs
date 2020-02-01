@@ -19,49 +19,75 @@ namespace Octokit.Tests.Clients
         }
 
 
-        // public class TheGetMethod
-        // {
-        //     [Fact]
-        //     public async Task RequestsCorrectUrl()
-        //     {
-        //         var connection = Substitute.For<IApiConnection>();
-        //         var client = new WorkflowsClient(connection);
+        public class TheGetMethod
+        {
+            [Fact]
+            public async Task RequestsCorrectUrlWithWorkflowId()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowsClient(connection);
 
-        //         await client.Get("fake", "repo", "reference");
+                await client.Get("fake", "repo", 1);
 
-        //         connection.Received().Get<GitHubCommit>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/commits/reference"));
-        //     }
+                connection.Received().Get<Workflow>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1"));
+            }
 
-        //     [Fact]
-        //     public async Task RequestsCorrectUrlWithRepositoryId()
-        //     {
-        //         var connection = Substitute.For<IApiConnection>();
-        //         var client = new WorkflowsClient(connection);
+            [Fact]
+            public async Task RequestsCorrectUrlWithWorkflowFileName()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowsClient(connection);
 
-        //         await client.Get(1, "reference");
+                await client.Get("fake", "repo", "workflow.yml");
 
-        //         connection.Received().Get<GitHubCommit>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/commits/reference"));
-        //     }
+                connection.Received().Get<Workflow>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/workflow.yml"));
+            }
 
-        //     [Fact]
-        //     public async Task EnsuresNonNullArguments()
-        //     {
-        //         var connection = Substitute.For<IApiConnection>();
-        //         var client = new WorkflowsClient(connection);
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryIdAndWorkFlowId()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowsClient(connection);
 
-        //         await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(null, "name", "reference"));
-        //         await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", null, "reference"));
-        //         await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", "name", null));
+                await client.Get(1, 2);
 
-        //         await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(1, null));
+                connection.Received().Get<Workflow>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2"));
+            }
 
-        //         await Assert.ThrowsAsync<ArgumentException>(() => client.Get("", "name", "reference"));
-        //         await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "", "reference"));
-        //         await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "name", ""));
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryIdAndWorkFlowFileName()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowsClient(connection);
 
-        //         await Assert.ThrowsAsync<ArgumentException>(() => client.Get(1, ""));
-        //     }
-        // }
+                await client.Get(1, "workflow.yml");
+
+                connection.Received().Get<Workflow>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/workflow.yml"));
+            }
+
+            [Fact]
+            public async Task EnsuresNonNullArguments()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowsClient(connection);
+
+                // get workflow by workflowId
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(1, null));
+
+                // get workflow by workflowFileName
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get(null, "name", "workflow.yml"));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", null, "workflow.yml"));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.Get("owner", "name", null));
+
+                // get workflow by workflowId
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get(1, ""));
+
+                // get workflow by workflowFileName
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("", "name", "workflow.yml"));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "", "workflow.yml"));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.Get("owner", "name", ""));
+            }
+        }
 
         public class TheGetAllMethod
         {
