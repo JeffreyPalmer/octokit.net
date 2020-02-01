@@ -10,6 +10,7 @@ namespace Octokit
             : base(apiConnection)
         {
         }
+
         public Task<WorkflowsResponse> GetAll(string owner, string name)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
@@ -17,6 +18,7 @@ namespace Octokit
 
             return GetAll(owner, name, ApiOptions.None);
         }
+
         public Task<WorkflowsResponse> GetAll(long repositoryId)
         {
             return GetAll(repositoryId, ApiOptions.None);

@@ -14,7 +14,6 @@ namespace Octokit
         // TODO: implement
         // IWorkflowJobsClient WorkflowJob { get; }
 
-        // TODO: implement
-        // IWorkflowRunsClient WorkflowRun { get; }
+        IWorkflowRunsClient WorkflowRun { get; }
     }
 }

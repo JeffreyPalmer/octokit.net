@@ -4224,5 +4224,144 @@ namespace Octokit
             return "repositories/{0}/actions/workflows/{1}".FormatUri(repositoryId, workflowFileName);
         }
 
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflow runs for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <param name="workflowId">The Id of the workflow</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRuns(string owner, string repo, long workflowId)
+        {
+            return "repos/{0}/{1}/actions/workflows/{2}/runs".FormatUri(owner, repo, workflowId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <param name="workflowId">The Id of the workflow</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRuns(long repositoryId, long workflowId)
+        {
+            return "repositories/{0}/actions/workflows/{1}/runs".FormatUri(repositoryId, workflowId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunsForRepository(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/runs".FormatUri(owner, repo);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunsForRepository(long repositoryId)
+        {
+            return "repositories/{0}/actions/runs".FormatUri(repositoryId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRun(string owner, string repo, long workflowRunId)
+        {
+            return "repos/{0}/{1}/actions/runs/{2}".FormatUri(owner, repo, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRun(long repositoryId, long workflowRunId)
+        {
+            return "repositories/{0}/actions/runs/{1}".FormatUri(repositoryId, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <param name="workflowRunId">The Id of the workflow run</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunReRun(string owner, string repo, long workflowRunId)
+        {
+            return "repos/{0}/{1}/actions/runs/{2}/rerun".FormatUri(owner, repo, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunReRun(long repositoryId, long workflowRunId)
+        {
+            return "repositories/{0}/actions/runs/{1}/rerun".FormatUri(repositoryId, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunCancel(string owner, string repo, long workflowRunId)
+        {
+            return "repos/{0}/{1}/actions/runs/{2}/cancel".FormatUri(owner, repo, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunCancel(long repositoryId, long workflowRunId)
+        {
+            return "repositories/{0}/actions/runs/{1}/cancel".FormatUri(repositoryId, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="owner">The owner of repo</param>
+        /// <param name="repo">The name of repo</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunLogs(string owner, string repo, long workflowRunId)
+        {
+            return "repos/{0}/{1}/actions/runs/{2}/logs".FormatUri(owner, repo, workflowRunId);
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Uri"/> that handles the workflows for the repository.
+        /// </summary>
+        /// <param name="repositoryId">The Id of the repository</param>
+        /// <param name="workflowRunId">The name of workflow file</param>
+        /// <returns>The <see cref="Uri"/> that handles the workflows for the repository.</returns>
+        public static Uri WorkflowRunLogs(long repositoryId, long workflowRunId)
+        {
+            return "repositories/{0}/actions/runs/{1}/logs".FormatUri(repositoryId, workflowRunId);
+        }
+
+
+
+
     }
 }

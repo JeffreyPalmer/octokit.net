@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -23,6 +24,11 @@ namespace Octokit
             After = after;
             PullRequests = pullRequests;
             App = app;
+            // FIXME: New fields
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+            LatestCheckRunsCount = latestCheckRunsCount;
+            HeadCommit = headCommit;
             Repository = repository;
         }
 
@@ -75,6 +81,13 @@ namespace Octokit
         /// The GitHub App for the check suite
         /// </summary>
         public GitHubApp App { get; protected set; }
+
+        // FIXME: Document me!
+        public DateTimeOffset CreatedAt { get; protected set; }
+
+        public DateTimeOffset UpdatedAt { get; protected set; }
+        public int LatestCheckRunsCount { get; protected set; }
+        public HeadCommit HeadCommit { get; protected set; }
 
         /// <summary>
         /// The repository for the check suite
