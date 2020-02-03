@@ -12,7 +12,7 @@ namespace Octokit
         {
         }
 
-        public CheckSuite(long id, string headBranch, string headSha, CheckStatus status, CheckConclusion? conclusion, string url, string before, string after, IReadOnlyList<PullRequest> pullRequests, GitHubApp app, Repository repository)
+        public CheckSuite(long id, string headBranch, string headSha, CheckStatus status, CheckConclusion? conclusion, string url, string before, string after, IReadOnlyList<PullRequest> pullRequests, GitHubApp app, DateTimeOffset createdAt, DateTimeOffset updatedAt, long latestCheckRunsCount, HeadCommit headCommit, Repository repository)
         {
             Id = id;
             HeadBranch = headBranch;
@@ -24,7 +24,6 @@ namespace Octokit
             After = after;
             PullRequests = pullRequests;
             App = app;
-            // FIXME: New fields
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
             LatestCheckRunsCount = latestCheckRunsCount;
@@ -86,7 +85,7 @@ namespace Octokit
         public DateTimeOffset CreatedAt { get; protected set; }
 
         public DateTimeOffset UpdatedAt { get; protected set; }
-        public int LatestCheckRunsCount { get; protected set; }
+        public long LatestCheckRunsCount { get; protected set; }
         public HeadCommit HeadCommit { get; protected set; }
 
         /// <summary>

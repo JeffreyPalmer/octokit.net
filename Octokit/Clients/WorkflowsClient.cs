@@ -24,26 +24,20 @@ namespace Octokit
             return GetAll(repositoryId, ApiOptions.None);
         }
 
-        public async Task<WorkflowsResponse> GetAll(string owner, string name, ApiOptions options)
+        public Task<WorkflowsResponse> GetAll(string owner, string name, ApiOptions options)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            var results = await ApiConnection.GetAll<WorkflowsResponse>(ApiUrls.Workflows(owner, name), options).ConfigureAwait(false);
-            return new WorkflowsResponse(
-                results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
-                results.SelectMany(x => x.Workflows).ToList());
+            return RequestAndReturnWorkflowsResponse(ApiUrls.Workflows(owner, name), options);
         }
 
-        public async Task<WorkflowsResponse> GetAll(long repositoryId, ApiOptions options)
+        public Task<WorkflowsResponse> GetAll(long repositoryId, ApiOptions options)
         {
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            var results = await ApiConnection.GetAll<WorkflowsResponse>(ApiUrls.Workflows(repositoryId), options).ConfigureAwait(false);
-            return new WorkflowsResponse(
-                results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
-                results.SelectMany(x => x.Workflows).ToList());
+            return RequestAndReturnWorkflowsResponse(ApiUrls.Workflows(repositoryId), options);
         }
 
         public Task<Workflow> Get(string owner, string name, long workflowId)
@@ -74,5 +68,14 @@ namespace Octokit
 
             return ApiConnection.Get<Workflow>(ApiUrls.Workflow(repositoryId, workflowFileName));
         }
+
+        private async Task<WorkflowsResponse> RequestAndReturnWorkflowsResponse(Uri uri, ApiOptions options)
+        {
+            var results = await ApiConnection.GetAll<WorkflowsResponse>(uri, options);
+            return new WorkflowsResponse(
+                results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
+                results.SelectMany(x => x.Workflows).ToList());
+        }
+
     }
 }

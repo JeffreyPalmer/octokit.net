@@ -26,7 +26,7 @@ namespace Octokit
         {
         }
 
-        public HeadCommit(long id, string treeId, string message, DateTimeOffset timestamp, HeadCommitUser author, HeadCommitUser committer)
+        public HeadCommit(string id, string treeId, string message, DateTimeOffset timestamp, HeadCommitUser author, HeadCommitUser committer)
         {
             Id = id;
             TreeId = treeId;
@@ -36,7 +36,7 @@ namespace Octokit
             Committer = committer;
         }
 
-        public long Id { get; protected set; }
+        public string Id { get; protected set; }
 
         public string TreeId { get; protected set; }
 
