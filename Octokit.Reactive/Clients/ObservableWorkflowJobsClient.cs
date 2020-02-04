@@ -14,7 +14,7 @@ namespace Octokit.Reactive
             Ensure.ArgumentNotNull(client, nameof(client));
 
             _connection = client.Connection;
-            _client = client.Action.WorkflowJob;
+            _client = client.Action.Job;
         }
 
         public IObservable<WorkflowJob> Get(string owner, string name, long jobId)

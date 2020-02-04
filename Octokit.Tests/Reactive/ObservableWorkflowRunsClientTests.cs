@@ -54,7 +54,7 @@ namespace Octokit.Tests.Reactive
                 var options = new ApiOptions();
 
                 client.GetAllForWorkflowId("fake", "repo", 1, options);
-                githubClient.Received().Action.WorkflowRun.GetAllForWorkflowId("fake", "repo", 1, options);
+                githubClient.Received().Action.Run.GetAllForWorkflowId("fake", "repo", 1, options);
             }
 
             [Fact]
@@ -65,7 +65,7 @@ namespace Octokit.Tests.Reactive
                 var options = new ApiOptions();
 
                 client.GetAllForWorkflowId(1, 2, options);
-                githubClient.Received().Action.WorkflowRun.GetAllForWorkflowId(1, 2, options);
+                githubClient.Received().Action.Run.GetAllForWorkflowId(1, 2, options);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Octokit.Tests.Reactive
                 var options = new ApiOptions();
 
                 client.GetAllForRepository("fake", "repo", options);
-                githubClient.Received().Action.WorkflowRun.GetAllForRepository("fake", "repo", options);
+                githubClient.Received().Action.Run.GetAllForRepository("fake", "repo", options);
             }
 
             [Fact]
@@ -115,7 +115,7 @@ namespace Octokit.Tests.Reactive
                 var options = new ApiOptions();
 
                 client.GetAllForRepository(1, options);
-                githubClient.Received().Action.WorkflowRun.GetAllForRepository(1, options);
+                githubClient.Received().Action.Run.GetAllForRepository(1, options);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.Get("fake", "repo", 1);
-                githubClient.Received().Action.WorkflowRun.Get("fake", "repo", 1);
+                githubClient.Received().Action.Run.Get("fake", "repo", 1);
             }
 
             [Fact]
@@ -158,7 +158,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.Get(1, 2);
-                githubClient.Received().Action.WorkflowRun.Get(1, 2);
+                githubClient.Received().Action.Run.Get(1, 2);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.ReRun("fake", "repo", 1);
-                githubClient.Received().Action.WorkflowRun.ReRun("fake", "repo", 1);
+                githubClient.Received().Action.Run.ReRun("fake", "repo", 1);
             }
 
             [Fact]
@@ -201,7 +201,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.ReRun(1, 2);
-                githubClient.Received().Action.WorkflowRun.ReRun(1, 2);
+                githubClient.Received().Action.Run.ReRun(1, 2);
             }
         }
 
@@ -234,7 +234,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.Cancel("fake", "repo", 1);
-                githubClient.Received().Action.WorkflowRun.Cancel("fake", "repo", 1);
+                githubClient.Received().Action.Run.Cancel("fake", "repo", 1);
             }
 
             [Fact]
@@ -244,7 +244,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.Cancel(1, 2);
-                githubClient.Received().Action.WorkflowRun.Cancel(1, 2);
+                githubClient.Received().Action.Run.Cancel(1, 2);
             }
         }
 
@@ -277,7 +277,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.GetLogsUrl("fake", "repo", 1);
-                githubClient.Received().Action.WorkflowRun.GetLogsUrl("fake", "repo", 1);
+                githubClient.Received().Action.Run.GetLogsUrl("fake", "repo", 1);
             }
 
             [Fact]
@@ -287,7 +287,7 @@ namespace Octokit.Tests.Reactive
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
                 client.GetLogsUrl(1, 2);
-                githubClient.Received().Action.WorkflowRun.GetLogsUrl(1, 2);
+                githubClient.Received().Action.Run.GetLogsUrl(1, 2);
             }
         }
     }

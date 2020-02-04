@@ -2,17 +2,16 @@ namespace Octokit
 {
     public interface IActionsClient
     {
-        // TODO: implement
-        // IArtifactsClient Artifact { get; }
-        // TODO: implement
-        // ISecretsClient Secret { get; }
+        IWorkflowArtifactsClient Artifact { get; }
 
-        // TODO: implement
-        // IRunnersClient Runner { get; }
+        ISecretsClient Secret { get; }
+
+        IRunnersClient Runner { get; }
+
         IWorkflowsClient Workflow { get; }
 
-        IWorkflowJobsClient WorkflowJob { get; }
+        IWorkflowJobsClient Job { get; }
 
-        IWorkflowRunsClient WorkflowRun { get; }
+        IWorkflowRunsClient Run { get; }
     }
 }
