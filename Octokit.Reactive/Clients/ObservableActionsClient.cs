@@ -8,9 +8,11 @@
 
             Workflow = new ObservableWorkflowsClient(client);
             WorkflowRun = new ObservableWorkflowRunsClient(client);
+            WorkflowJob = new ObservableWorkflowJobsClient(client);
         }
 
         public IObservableWorkflowsClient Workflow { get; private set; }
         public IObservableWorkflowRunsClient WorkflowRun { get; private set; }
+        public IObservableWorkflowJobsClient WorkflowJob { get; private set; }
     }
 }

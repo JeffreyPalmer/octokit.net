@@ -4,5 +4,6 @@
     {
         IObservableWorkflowsClient Workflow { get; }
         IObservableWorkflowRunsClient WorkflowRun { get; }
+        IObservableWorkflowJobsClient WorkflowJob { get; }
     }
 }
