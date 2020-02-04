@@ -5,10 +5,29 @@ using System.Globalization;
 
 namespace Octokit
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class WorkflowRun
     {
         public WorkflowRun()
         {
+        }
+
+        public WorkflowRun(long id, string headBranch, string headSha, int runNumber, long checkSuiteId, string @event, string status, StringEnum<CheckConclusion>? conclusion, string url, string htmlUrl, IReadOnlyList<PullRequest> pullRequests, DateTimeOffset createdAt, DateTimeOffset updatedAt, HeadCommit headCommit)
+        {
+            Id = id;
+            HeadBranch = headBranch;
+            HeadSha = headSha;
+            RunNumber = runNumber;
+            CheckSuiteId = checkSuiteId;
+            Event = @event;
+            Status = status;
+            Conclusion = conclusion;
+            Url = url;
+            HtmlUrl = htmlUrl;
+            PullRequests = pullRequests;
+            CreatedAt = createdAt;
+            UpdatedAt = updatedAt;
+            HeadCommit = headCommit;
         }
 
         public long Id { get; protected set; }
@@ -27,5 +46,7 @@ namespace Octokit
         public DateTimeOffset CreatedAt { get; protected set; }
         public DateTimeOffset UpdatedAt { get; protected set; }
         public HeadCommit HeadCommit { get; protected set; }
+
+        internal string DebuggerDisplay => string.Format(CultureInfo.InvariantCulture, "Id: {0}, HeadBranch: {1}, HeadSha: {2}, CheckSuiteId: {3}, Conclusion: {4}", Id, HeadBranch, HeadSha, CheckSuiteId, Conclusion);
     }
 }

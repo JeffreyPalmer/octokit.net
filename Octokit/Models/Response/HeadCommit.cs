@@ -1,8 +1,11 @@
 using System;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace Octokit
 {
     // FIXME: Not sure if this should be here but it's only ever used inside of this class, and it's fairly useless elsewhere
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class HeadCommitUser
     {
         public HeadCommitUser()
@@ -17,9 +20,12 @@ namespace Octokit
 
         public string Name { get; protected set; }
         public string Email { get; protected set; }
+
+        internal string DebuggerDisplay => string.Format(CultureInfo.InvariantCulture, "Name: {0}, Email: {1}", Name, Email);
     }
 
 
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class HeadCommit
     {
         public HeadCommit()
@@ -48,8 +54,6 @@ namespace Octokit
 
         public HeadCommitUser Committer { get; protected set; }
 
+        internal string DebuggerDisplay => string.Format(CultureInfo.InvariantCulture, "Id: {0}, Message: {1}, Timestamp: {2}", Id, Message, Timestamp);
     }
-
-
-
 }

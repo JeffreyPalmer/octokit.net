@@ -92,8 +92,6 @@ namespace Octokit
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
             var httpStatusCode = await Connection.Post(ApiUrls.WorkflowRunReRun(owner, name, runId)).ConfigureAwait(false);
-            // FIXME: This logic (copied from CheckSuitesClient) seems suspect - the final boolean result will never return anything other than true
-            // FIXME: How are clients expected to check for failures? via exception handling or result testing?
             if (httpStatusCode != HttpStatusCode.Created)
             {
                 throw new ApiException("Invalid status code returned. Expected a 201", httpStatusCode);
@@ -104,8 +102,6 @@ namespace Octokit
         public async Task<bool> ReRun(long repositoryId, long runId)
         {
             var httpStatusCode = await Connection.Post(ApiUrls.WorkflowRunReRun(repositoryId, runId)).ConfigureAwait(false);
-            // FIXME: This logic seems suspect - the final boolean result will never return anything other than true
-            // FIXME: How are clients expected to check for failures? via exception handling or result testing?
             if (httpStatusCode != HttpStatusCode.Created)
             {
                 throw new ApiException("Invalid status code returned. Expected a 201", httpStatusCode);
@@ -120,8 +116,6 @@ namespace Octokit
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
             var httpStatusCode = await Connection.Post(ApiUrls.WorkflowRunCancel(owner, name, runId)).ConfigureAwait(false);
-            // FIXME: This logic seems suspect - the final boolean result will never return anything other than true
-            // FIXME: How are clients expected to check for failures? via exception handling or result testing?
             if (httpStatusCode != HttpStatusCode.Accepted)
             {
                 throw new ApiException("Invalid status code returned. Expected a 202", httpStatusCode);
@@ -132,8 +126,6 @@ namespace Octokit
         public async Task<bool> Cancel(long repositoryId, long runId)
         {
             var httpStatusCode = await Connection.Post(ApiUrls.WorkflowRunCancel(repositoryId, runId)).ConfigureAwait(false);
-            // FIXME: This logic seems suspect - the final boolean result will never return anything other than true
-            // FIXME: How are clients expected to check for failures? via exception handling or result testing?
             if (httpStatusCode != HttpStatusCode.Accepted)
             {
                 throw new ApiException("Invalid status code returned. Expected a 202", httpStatusCode);
