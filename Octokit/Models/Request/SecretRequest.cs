@@ -4,6 +4,7 @@ using Octokit.Internal;
 
 namespace Octokit
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class SecretRequest : RequestParameters
     {
         [Parameter(Key = "encrypted_value")]
@@ -12,6 +13,6 @@ namespace Octokit
         [Parameter(Key = "key_id")]
         public string KeyId { get; set; }
 
-
+        internal string DebuggerDisplay => string.Format(CultureInfo.InvariantCulture, "KeyId: {0}", KeyId);
     }
 }

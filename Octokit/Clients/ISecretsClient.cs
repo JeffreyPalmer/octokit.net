@@ -9,19 +9,22 @@ namespace Octokit
         Task<PublicKey> GetPublicKey(string owner, string name);
         Task<PublicKey> GetPublicKey(long repositoryId);
 
-        Task<IReadOnlyList<SecretsResponse>> GetAll(string owner, string name);
-        Task<IReadOnlyList<SecretsResponse>> GetAll(long repositoryId);
+        Task<SecretsResponse> GetAll(string owner, string name);
+        Task<SecretsResponse> GetAll(long repositoryId);
+
+        Task<SecretsResponse> GetAll(string owner, string name, ApiOptions options);
+        Task<SecretsResponse> GetAll(long repositoryId, ApiOptions options);
 
         Task<Secret> Get(string owner, string name, string secretName);
         Task<Secret> Get(long repositoryId, string secretName);
 
-        Task<bool> Create(string owner, string name, string secretName, SecretRequest secretRequest);
-        Task<bool> Create(long repositoryId, string secretName, SecretRequest secretRequest);
-        Task<bool> Update(string owner, string name, string secretName, SecretRequest secretRequest);
-        Task<bool> Update(long repositoryId, string secretName, SecretRequest secretRequest);
+        Task Create(string owner, string name, string secretName, SecretRequest secretRequest);
+        Task Create(long repositoryId, string secretName, SecretRequest secretRequest);
+        Task Update(string owner, string name, string secretName, SecretRequest secretRequest);
+        Task Update(long repositoryId, string secretName, SecretRequest secretRequest);
 
-        Task<bool> Delete(string owner, string name, string secretName);
-        Task<bool> Delete(long repositoryId, string secretName);
+        Task Delete(string owner, string name, string secretName);
+        Task Delete(long repositoryId, string secretName);
 
     }
 }

@@ -50,27 +50,26 @@ namespace Octokit
         public Task<WorkflowJobsResponse> GetAll(long repositoryId, long runId, ApiOptions options)
         {
             Ensure.ArgumentNotNull(options, nameof(options));
+
             return RequestAndReturnWorkflowJobsResponse(ApiUrls.WorkflowRunJobs(repositoryId, runId), options);
         }
 
-        public async Task<string> LogsUrl(string owner, string name, long jobId)
+        public Task<string> LogsUrl(string owner, string name, long jobId)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            var response = await Connection.Get<object>(ApiUrls.WorkflowJobLogs(owner, name, jobId), null, null).ConfigureAwait(false);
-            var statusCode = response.HttpResponse.StatusCode;
-            if (statusCode != HttpStatusCode.Found)
-            {
-                throw new ApiException("Invalid status code returned. Expected a 302", statusCode);
-            }
-            return response.HttpResponse.Headers.SafeGet("Location");
+            return RequestAndReturnLogsUrl(ApiUrls.WorkflowJobLogs(owner, name, jobId));
         }
 
-        public async Task<string> LogsUrl(long repositoryId, long jobId)
+        public Task<string> LogsUrl(long repositoryId, long jobId)
         {
+            return RequestAndReturnLogsUrl(ApiUrls.WorkflowJobLogs(repositoryId, jobId));
+        }
 
-            var response = await Connection.Get<object>(ApiUrls.WorkflowJobLogs(repositoryId, jobId), null, null).ConfigureAwait(false);
+        private async Task<string> RequestAndReturnLogsUrl(Uri uri)
+        {
+            var response = await Connection.Get<object>(uri, null, null).ConfigureAwait(false);
             var statusCode = response.HttpResponse.StatusCode;
             if (statusCode != HttpStatusCode.Found)
             {

@@ -7,6 +7,10 @@ namespace Octokit
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class RunnerDownload
     {
+        public RunnerDownload()
+        {
+        }
+
         public RunnerDownload(string os, string architecture, string downloadUrl, string filename)
         {
             Os = os;

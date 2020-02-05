@@ -4383,7 +4383,6 @@ namespace Octokit
             return "repositories/{0}/actions/runs/{1}/jobs".FormatUri(repositoryId, runId);
         }
 
-
         /// <summary>
         /// Returns the <see cref="Uri"/> that handles the workflow jobs for the repository.
         /// </summary>
@@ -4430,5 +4429,104 @@ namespace Octokit
             return "repositories/{0}/actions/jobs/{1}/logs".FormatUri(repositoryId, jobId);
         }
 
+        public static Uri WorkflowArtifacts(string owner, string repo, long runId)
+        {
+            return "repos/{0}/{1}/actions/runs/{2}/artifacts".FormatUri(owner, repo, runId);
+        }
+        public static Uri WorkflowArtifacts(long repositoryId, long runId)
+        {
+            return "repositories/{0}/actions/runs/{1}/artifacts".FormatUri(repositoryId, runId);
+        }
+
+        public static Uri WorkflowArtifact(string owner, string repo, long artifactId)
+        {
+            return "repos/{0}/{1}/actions/artifacts/{2}".FormatUri(owner, repo, artifactId);
+        }
+        public static Uri WorkflowArtifact(long repositoryId, long artifactId)
+        {
+            return "repositories/{0}/actions/artifacts/{1}".FormatUri(repositoryId, artifactId);
+        }
+
+        public static Uri WorkflowArtifactDownloadUrl(string owner, string repo, long artifactId, string archiveFormat)
+        {
+            return "repos/{0}/{1}/actions/artifacts/{2}/{3}".FormatUri(owner, repo, artifactId, archiveFormat);
+        }
+        public static Uri WorkflowArtifactDownloadUrl(long repositoryId, long artifactId, string archiveFormat)
+        {
+            return "repositories/{0}/actions/artifacts/{1}/{2}".FormatUri(repositoryId, artifactId, archiveFormat);
+        }
+
+        public static Uri SecretsPublicKey(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/secrets/public-key".FormatUri(owner, repo);
+        }
+        public static Uri SecretsPublicKey(long repositoryId)
+        {
+            return "repositories/{0}/actions/secrets/public-key".FormatUri(repositoryId);
+        }
+
+        public static Uri Secrets(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/secrets".FormatUri(owner, repo);
+        }
+        public static Uri Secrets(long repositoryId)
+        {
+            return "repositories/{0}/actions/secrets".FormatUri(repositoryId);
+        }
+
+
+        public static Uri Secret(string owner, string repo, string name)
+        {
+            return "repos/{0}/{1}/actions/secrets/{2}".FormatUri(owner, repo, name);
+        }
+        public static Uri Secret(long repositoryId, string name)
+        {
+            return "repositories/{0}/actions/secrets/{1}".FormatUri(repositoryId, name);
+        }
+
+        public static Uri RunnersDownloads(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/runners/downloads".FormatUri(owner, repo);
+        }
+        public static Uri RunnersDownloads(long repositoryId)
+        {
+            return "repositories/{0}/actions/runners/downloads".FormatUri(repositoryId);
+        }
+
+        public static Uri RunnersRegistrationToken(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/runners/registration-token".FormatUri(owner, repo);
+        }
+        public static Uri RunnersRegistrationToken(long repositoryId)
+        {
+            return "repositories/{0}/actions/runners/registration-token".FormatUri(repositoryId);
+        }
+
+        public static Uri Runners(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/runners".FormatUri(owner, repo);
+        }
+        public static Uri Runners(long repositoryId)
+        {
+            return "repositories/{0}/actions/runners".FormatUri(repositoryId);
+        }
+
+        public static Uri Runner(string owner, string repo, long runnerId)
+        {
+            return "repos/{0}/{1}/actions/runners/{2}".FormatUri(owner, repo, runnerId);
+        }
+        public static Uri Runner(long repositoryId, long runnerId)
+        {
+            return "repositories/{0}/actions/runners/{1}".FormatUri(repositoryId, runnerId);
+        }
+
+        public static Uri RunnersRemoveToken(string owner, string repo)
+        {
+            return "repos/{0}/{1}/actions/runners/remove-token".FormatUri(owner, repo);
+        }
+        public static Uri RunnersRemoveToken(long repositoryId)
+        {
+            return "repositories/{0}/actions/runners/remove-token".FormatUri(repositoryId);
+        }
     }
 }
