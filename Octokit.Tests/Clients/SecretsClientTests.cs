@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
-using System.Net;
-using Octokit.Internal;
 using Xunit;
 
 namespace Octokit.Tests.Clients
@@ -19,7 +16,6 @@ namespace Octokit.Tests.Clients
                     () => new SecretsClient(null));
             }
         }
-
 
         public class TheGetPublicKeyMethod
         {
@@ -176,8 +172,6 @@ namespace Octokit.Tests.Clients
             }
         }
 
-
-
         public class TheCreateMethod
         {
             [Fact]
@@ -237,9 +231,6 @@ namespace Octokit.Tests.Clients
 
             }
         }
-
-
-
 
         public class TheUpdateMethod
         {

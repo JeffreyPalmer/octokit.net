@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
-using System.Net;
-using Octokit.Tests.Helpers;
-using Octokit.Internal;
 using Xunit;
 
 namespace Octokit.Tests.Clients
