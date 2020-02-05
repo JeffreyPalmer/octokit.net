@@ -23,28 +23,45 @@ namespace Octokit.Reactive
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            return GetAllForWorkflowId(owner, name, workflowId, ApiOptions.None);
+            return GetAllForWorkflowId(owner, name, workflowId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
         public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId)
         {
-            return GetAllForWorkflowId(repositoryId, workflowId, ApiOptions.None);
+            return GetAllForWorkflowId(repositoryId, workflowId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, ApiOptions options)
+        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
-            Ensure.ArgumentNotNull(options, nameof(options));
+            Ensure.ArgumentNotNull(request, nameof(request));
 
-            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRuns(owner, name, workflowId), options);
+            return GetAllForWorkflowId(owner, name, workflowId, request, ApiOptions.None);
         }
 
-        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, ApiOptions options)
+        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request)
         {
+            Ensure.ArgumentNotNull(request, nameof(request));
+            return GetAllForWorkflowId(repositoryId, workflowId, request, ApiOptions.None);
+        }
+
+        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRuns(repositoryId, workflowId), options);
+            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRuns(owner, name, workflowId), request.ToParametersDictionary(), options);
+        }
+
+        public IObservable<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNull(request, nameof(request));
+            Ensure.ArgumentNotNull(options, nameof(options));
+
+            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRuns(repositoryId, workflowId), request.ToParametersDictionary(), options);
         }
 
         public IObservable<WorkflowRunsResponse> GetAllForRepository(string owner, string name)
@@ -52,28 +69,46 @@ namespace Octokit.Reactive
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            return GetAllForRepository(owner, name, ApiOptions.None);
+            return GetAllForRepository(owner, name, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
         public IObservable<WorkflowRunsResponse> GetAllForRepository(long repositoryId)
         {
-            return GetAllForRepository(repositoryId, ApiOptions.None);
+            return GetAllForRepository(repositoryId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public IObservable<WorkflowRunsResponse> GetAllForRepository(string owner, string name, ApiOptions options)
+        public IObservable<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
-            Ensure.ArgumentNotNull(options, nameof(options));
+            Ensure.ArgumentNotNull(request, nameof(request));
 
-            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRunsForRepository(owner, name), options);
+            return GetAllForRepository(owner, name, request, ApiOptions.None);
         }
 
-        public IObservable<WorkflowRunsResponse> GetAllForRepository(long repositoryId, ApiOptions options)
+        public IObservable<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request)
         {
+            Ensure.ArgumentNotNull(request, nameof(request));
+
+            return GetAllForRepository(repositoryId, request, ApiOptions.None);
+        }
+
+        public IObservable<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRunsForRepository(repositoryId), options);
+            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRunsForRepository(owner, name), request.ToParametersDictionary(), options);
+        }
+
+        public IObservable<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNull(request, nameof(request));
+            Ensure.ArgumentNotNull(options, nameof(options));
+
+            return _connection.GetAndFlattenAllPages<WorkflowRunsResponse>(ApiUrls.WorkflowRunsForRepository(repositoryId), request.ToParametersDictionary(), options);
         }
 
 

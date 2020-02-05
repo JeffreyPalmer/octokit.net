@@ -67,7 +67,10 @@ namespace Octokit.Tests.Clients
 
                 await client.GetAllForWorkflowId("fake", "repo", 1);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1/runs"), Args.ApiOptions);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => true),
+                    Args.ApiOptions);
             }
 
             [Fact]
@@ -78,14 +81,57 @@ namespace Octokit.Tests.Clients
 
                 await client.GetAllForWorkflowId(1, 2);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2/runs"), Args.ApiOptions);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => true),
+                    Args.ApiOptions);
             }
 
             [Fact]
-            public async Task RequestsCorrectUrlWithRepositoryNameWithApiOptions()
+            public async Task RequestsCorrectUrlWithRepositoryNameWithWorkflowRunsRequest()
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
+
+                await client.GetAllForWorkflowId("fake", "repo", 1, request);
+
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    Args.ApiOptions);
+            }
+
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryIdWithWorkflowRunsRequest()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
+
+                await client.GetAllForWorkflowId(1, 2, request);
+
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    Args.ApiOptions);
+            }
+
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryNameWithWorkflowRunsRequestWithApiOptions()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
 
                 var options = new ApiOptions
                 {
@@ -94,16 +140,23 @@ namespace Octokit.Tests.Clients
                     PageSize = 1
                 };
 
-                await client.GetAllForWorkflowId("fake", "repo", 1, options);
+                await client.GetAllForWorkflowId("fake", "repo", 1, request, options);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1/runs"), options);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/workflows/1/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    options);
             }
 
             [Fact]
-            public async Task RequestsCorrectUrlWithRepositoryIdWithApiOptions()
+            public async Task RequestsCorrectUrlWithRepositoryIdWithWorkflowRunsRequestWithApiOptions()
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
 
                 var options = new ApiOptions
                 {
@@ -112,9 +165,12 @@ namespace Octokit.Tests.Clients
                     PageSize = 1
                 };
 
-                await client.GetAllForWorkflowId(1, 2, options);
+                await client.GetAllForWorkflowId(1, 2, request, options);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2/runs"), options);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/workflows/2/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    options);
             }
 
             [Fact]
@@ -122,20 +178,29 @@ namespace Octokit.Tests.Clients
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest();
 
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1));
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1));
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1, ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1, ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, (ApiOptions)null));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1, request));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1, request));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, null));
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, (ApiOptions)null));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1, request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1, request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, null, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, request, (ApiOptions)null));
+
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, null, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, request, (ApiOptions)null));
 
                 await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1));
                 await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1));
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1, ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1, request));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1, request));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1, request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1, request, ApiOptions.None));
             }
         }
 
@@ -150,7 +215,10 @@ namespace Octokit.Tests.Clients
 
                 await client.GetAllForRepository("fake", "repo");
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/runs"), Args.ApiOptions);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => true),
+                    Args.ApiOptions);
             }
 
             [Fact]
@@ -161,14 +229,57 @@ namespace Octokit.Tests.Clients
 
                 await client.GetAllForRepository(1);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/runs"), Args.ApiOptions);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => true),
+                    Args.ApiOptions);
             }
 
             [Fact]
-            public async Task RequestsCorrectUrlWithRepositoryNameWithApiOptions()
+            public async Task RequestsCorrectUrlWithRepositoryNameWithWorkflowRunsRequest()
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
+
+                await client.GetAllForRepository("fake", "repo", request);
+
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    Args.ApiOptions);
+            }
+
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryIdWithWorkflowRunsRequest()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
+
+                await client.GetAllForRepository(1, request);
+
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    Args.ApiOptions);
+            }
+
+            [Fact]
+            public async Task RequestsCorrectUrlWithRepositoryNameWithWorkflowRunsRequestWithApiOptions()
+            {
+                var connection = Substitute.For<IApiConnection>();
+                var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
 
                 var options = new ApiOptions
                 {
@@ -177,16 +288,23 @@ namespace Octokit.Tests.Clients
                     PageSize = 1
                 };
 
-                await client.GetAllForRepository("fake", "repo", options);
+                await client.GetAllForRepository("fake", "repo", request, options);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/runs"), options);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repos/fake/repo/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    options);
             }
 
             [Fact]
-            public async Task RequestsCorrectUrlWithRepositoryIdWithApiOptions()
+            public async Task RequestsCorrectUrlWithRepositoryIdWithWorkflowRunsRequestWithApiOptions()
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest()
+                {
+                    Branch = "master"
+                };
 
                 var options = new ApiOptions
                 {
@@ -195,9 +313,12 @@ namespace Octokit.Tests.Clients
                     PageSize = 1
                 };
 
-                await client.GetAllForRepository(1, options);
+                await client.GetAllForRepository(1, request, options);
 
-                connection.Received().GetAll<WorkflowRunsResponse>(Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/runs"), options);
+                connection.Received().GetAll<WorkflowRunsResponse>(
+                    Arg.Is<Uri>(u => u.ToString() == "repositories/1/actions/runs"),
+                    Arg.Is<Dictionary<string, string>>(x => x["branch"] == "master"),
+                    options);
             }
 
             [Fact]
@@ -205,20 +326,29 @@ namespace Octokit.Tests.Clients
             {
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
+                var request = new WorkflowRunsRequest();
 
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name"));
                 await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null));
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name", ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null, ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", (ApiOptions)null));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name", request));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null, request));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", null));
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, (ApiOptions)null));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name", request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null, request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", null, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", request, (ApiOptions)null));
+
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, null, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, request, (ApiOptions)null));
 
                 await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name"));
                 await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", ""));
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name", ApiOptions.None));
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", "", ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name", request));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", "", request));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name", request, ApiOptions.None));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", "", request, ApiOptions.None));
             }
         }
 

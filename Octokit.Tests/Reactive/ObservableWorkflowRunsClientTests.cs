@@ -26,10 +26,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1, options).ToTask());
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("", "name", 1, request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForWorkflowId("owner", "", 1, request, options).ToTask());
             }
 
             [Fact]
@@ -37,13 +38,16 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1, options).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1, options).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, null).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(null, "name", 1, request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", null, 1, request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, null, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId("owner", "name", 1, request, null).ToTask());
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, null).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, null, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForWorkflowId(1, 2, request, null).ToTask());
             }
 
             [Fact]
@@ -51,10 +55,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                client.GetAllForWorkflowId("fake", "repo", 1, options);
-                githubClient.Received().Action.Run.GetAllForWorkflowId("fake", "repo", 1, options);
+                client.GetAllForWorkflowId("fake", "repo", 1, request, options);
+                githubClient.Received().Action.Run.GetAllForWorkflowId("fake", "repo", 1, request, options);
             }
 
             [Fact]
@@ -62,10 +67,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                client.GetAllForWorkflowId(1, 2, options);
-                githubClient.Received().Action.Run.GetAllForWorkflowId(1, 2, options);
+                client.GetAllForWorkflowId(1, 2, request, options);
+                githubClient.Received().Action.Run.GetAllForWorkflowId(1, 2, request, options);
             }
         }
 
@@ -76,10 +82,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name", options).ToTask());
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", "", options).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("", "name", request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.GetAllForRepository("owner", "", request, options).ToTask());
             }
 
             [Fact]
@@ -87,13 +94,16 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name", options).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null, options).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", null).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(null, "name", request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", null, request, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", null, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository("owner", "name", request, null).ToTask());
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, null).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, null, options).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetAllForRepository(1, request, null).ToTask());
             }
 
             [Fact]
@@ -101,10 +111,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                client.GetAllForRepository("fake", "repo", options);
-                githubClient.Received().Action.Run.GetAllForRepository("fake", "repo", options);
+                client.GetAllForRepository("fake", "repo", request, options);
+                githubClient.Received().Action.Run.GetAllForRepository("fake", "repo", request, options);
             }
 
             [Fact]
@@ -112,10 +123,11 @@ namespace Octokit.Tests.Reactive
             {
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
+                var request = new WorkflowRunsRequest();
                 var options = new ApiOptions();
 
-                client.GetAllForRepository(1, options);
-                githubClient.Received().Action.Run.GetAllForRepository(1, options);
+                client.GetAllForRepository(1, request, options);
+                githubClient.Received().Action.Run.GetAllForRepository(1, request, options);
             }
         }
 

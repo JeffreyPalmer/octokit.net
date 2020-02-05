@@ -7,14 +7,20 @@ namespace Octokit
         Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId);
         Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId);
 
-        Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, ApiOptions options);
-        Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, ApiOptions options);
+        Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request);
+        Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request);
+
+        Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request, ApiOptions options);
+        Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request, ApiOptions options);
 
         Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name);
         Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId);
 
-        Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, ApiOptions options);
-        Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, ApiOptions options);
+        Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request);
+        Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request);
+
+        Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request, ApiOptions options);
+        Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request, ApiOptions options);
 
         Task<WorkflowRun> Get(string owner, string name, long runId);
         Task<WorkflowRun> Get(long repositoryId, long runId);

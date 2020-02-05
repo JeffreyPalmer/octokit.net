@@ -19,28 +19,45 @@ namespace Octokit
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            return GetAllForRepository(owner, name, ApiOptions.None);
+            return GetAllForRepository(owner, name, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, ApiOptions options)
+        public Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
+
+            return GetAllForRepository(owner, name, request, ApiOptions.None);
+        }
+
+        public Task<WorkflowRunsResponse> GetAllForRepository(string owner, string name, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRunsForRepository(owner, name), options);
+            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRunsForRepository(owner, name), request, options);
         }
 
         public Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId)
         {
-            return GetAllForRepository(repositoryId, ApiOptions.None);
+            return GetAllForRepository(repositoryId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, ApiOptions options)
+        public Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request)
         {
+            Ensure.ArgumentNotNull(request, nameof(request));
+            return GetAllForRepository(repositoryId, request, ApiOptions.None);
+        }
+
+        public Task<WorkflowRunsResponse> GetAllForRepository(long repositoryId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRunsForRepository(repositoryId), options);
+            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRunsForRepository(repositoryId), request, options);
         }
 
         public Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId)
@@ -48,28 +65,46 @@ namespace Octokit
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            return GetAllForWorkflowId(owner, name, workflowId, ApiOptions.None);
+            return GetAllForWorkflowId(owner, name, workflowId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, ApiOptions options)
+        public Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
+
+            return GetAllForWorkflowId(owner, name, workflowId, request, ApiOptions.None);
+        }
+
+        public Task<WorkflowRunsResponse> GetAllForWorkflowId(string owner, string name, long workflowId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
+            Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRuns(owner, name, workflowId), options);
+            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRuns(owner, name, workflowId), request, options);
         }
 
         public Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId)
         {
-            return GetAllForWorkflowId(repositoryId, workflowId, ApiOptions.None);
+            return GetAllForWorkflowId(repositoryId, workflowId, new WorkflowRunsRequest(), ApiOptions.None);
         }
 
-        public Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, ApiOptions options)
+        public Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request)
         {
+            Ensure.ArgumentNotNull(request, nameof(request));
+
+            return GetAllForWorkflowId(repositoryId, workflowId, request, ApiOptions.None);
+        }
+
+        public Task<WorkflowRunsResponse> GetAllForWorkflowId(long repositoryId, long workflowId, WorkflowRunsRequest request, ApiOptions options)
+        {
+            Ensure.ArgumentNotNull(request, nameof(request));
             Ensure.ArgumentNotNull(options, nameof(options));
 
-            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRuns(repositoryId, workflowId), options);
+            return RequestAndReturnWorkflowRunsResponse(ApiUrls.WorkflowRuns(repositoryId, workflowId), request, options);
         }
 
         public Task<WorkflowRun> Get(string owner, string name, long runId)
@@ -160,9 +195,9 @@ namespace Octokit
         }
 
         // Private support methods
-        private async Task<WorkflowRunsResponse> RequestAndReturnWorkflowRunsResponse(Uri uri, ApiOptions options)
+        private async Task<WorkflowRunsResponse> RequestAndReturnWorkflowRunsResponse(Uri uri, WorkflowRunsRequest request, ApiOptions options)
         {
-            var results = await ApiConnection.GetAll<WorkflowRunsResponse>(uri, options);
+            var results = await ApiConnection.GetAll<WorkflowRunsResponse>(uri, request.ToParametersDictionary(), options);
             return new WorkflowRunsResponse(
                 results.Count > 0 ? results.Max(x => x.TotalCount) : 0,
                 results.SelectMany(x => x.WorkflowRuns).ToList());
