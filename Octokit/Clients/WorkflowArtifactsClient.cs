@@ -12,7 +12,7 @@ namespace Octokit
         {
         }
 
-        public Task Delete(string name, string owner, long artifactId)
+        public Task Delete(string owner, string name, long artifactId)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
@@ -29,23 +29,14 @@ namespace Octokit
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
-
-            // FIXME: At the moment, the only allowed archive format is "zip". Is this the recommended way to handle this?
-            if (archiveFormat != "zip")
-            {
-                throw new ArgumentException("Currently, 'zip' the only allowable archive format for artifact downloads");
-            }
+            Ensure.ArgumentNotNullOrEmptyString(archiveFormat, nameof(archiveFormat));
 
             return RequestAndReturnDownloadUrl(ApiUrls.WorkflowArtifactDownloadUrl(owner, name, artifactId, archiveFormat));
         }
 
         public Task<string> DownloadUrl(long repositoryId, long artifactId, string archiveFormat)
         {
-            // FIXME: At the moment, the only allowed archive format is "zip". Is this the recommended way to handle this?
-            if (archiveFormat != "zip")
-            {
-                throw new ArgumentException("Currently, 'zip' the only allowable archive format for artifact downloads");
-            }
+            Ensure.ArgumentNotNullOrEmptyString(archiveFormat, nameof(archiveFormat));
 
             return RequestAndReturnDownloadUrl(ApiUrls.WorkflowArtifactDownloadUrl(repositoryId, artifactId, archiveFormat));
         }
