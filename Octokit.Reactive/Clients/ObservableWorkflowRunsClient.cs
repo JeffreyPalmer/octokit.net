@@ -152,17 +152,17 @@ namespace Octokit.Reactive
             return _client.Cancel(repositoryId, runId).ToObservable();
         }
 
-        public IObservable<string> GetLogsUrl(string owner, string name, long runId)
+        public IObservable<string> LogsUrl(string owner, string name, long runId)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
 
-            return _client.GetLogsUrl(owner, name, runId).ToObservable();
+            return _client.LogsUrl(owner, name, runId).ToObservable();
         }
 
-        public IObservable<string> GetLogsUrl(long repositoryId, long runId)
+        public IObservable<string> LogsUrl(long repositoryId, long runId)
         {
-            return _client.GetLogsUrl(repositoryId, runId).ToObservable();
+            return _client.LogsUrl(repositoryId, runId).ToObservable();
         }
 
     }

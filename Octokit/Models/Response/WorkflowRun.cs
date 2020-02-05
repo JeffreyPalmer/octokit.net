@@ -12,7 +12,7 @@ namespace Octokit
         {
         }
 
-        public WorkflowRun(long id, string headBranch, string headSha, int runNumber, long checkSuiteId, string @event, string status, StringEnum<CheckConclusion>? conclusion, string url, string htmlUrl, IReadOnlyList<PullRequest> pullRequests, DateTimeOffset createdAt, DateTimeOffset updatedAt, HeadCommit headCommit)
+        public WorkflowRun(long id, string headBranch, string headSha, int runNumber, long checkSuiteId, string @event, CheckStatus status, CheckConclusion? conclusion, string url, string htmlUrl, IReadOnlyList<PullRequest> pullRequests, DateTimeOffset createdAt, DateTimeOffset updatedAt, HeadCommit headCommit, Repository repository, Repository headRepository)
         {
             Id = id;
             HeadBranch = headBranch;
@@ -28,6 +28,8 @@ namespace Octokit
             CreatedAt = createdAt;
             UpdatedAt = updatedAt;
             HeadCommit = headCommit;
+            Repository = repository;
+            HeadRepository = headRepository;
         }
 
         public long Id { get; protected set; }
@@ -36,9 +38,7 @@ namespace Octokit
         public int RunNumber { get; protected set; }
         public long CheckSuiteId { get; protected set; }
         public string Event { get; protected set; }
-        public string Status { get; protected set; }
-
-        // FIXME: Should probably be check suite conclusion? What is the actual type for this? CheckConclusion seems wrong. Perhaps Conclusion?
+        public StringEnum<CheckStatus> Status { get; protected set; }
         public StringEnum<CheckConclusion>? Conclusion { get; protected set; }
         public string Url { get; protected set; }
         public string HtmlUrl { get; protected set; }
@@ -46,6 +46,8 @@ namespace Octokit
         public DateTimeOffset CreatedAt { get; protected set; }
         public DateTimeOffset UpdatedAt { get; protected set; }
         public HeadCommit HeadCommit { get; protected set; }
+        public Repository Repository { get; protected set; }
+        public Repository HeadRepository { get; protected set; }
 
         internal string DebuggerDisplay => string.Format(CultureInfo.InvariantCulture, "Id: {0}, HeadBranch: {1}, HeadSha: {2}, CheckSuiteId: {3}, Conclusion: {4}", Id, HeadBranch, HeadSha, CheckSuiteId, Conclusion);
     }

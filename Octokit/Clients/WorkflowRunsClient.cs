@@ -168,7 +168,7 @@ namespace Octokit
             return httpStatusCode == HttpStatusCode.Accepted;
         }
 
-        public async Task<string> GetLogsUrl(string owner, string name, long runId)
+        public async Task<string> LogsUrl(string owner, string name, long runId)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, nameof(owner));
             Ensure.ArgumentNotNullOrEmptyString(name, nameof(name));
@@ -183,7 +183,7 @@ namespace Octokit
             return response.HttpResponse.Headers.SafeGet("Location");
         }
 
-        public async Task<string> GetLogsUrl(long repositoryId, long runId)
+        public async Task<string> LogsUrl(long repositoryId, long runId)
         {
             var response = await Connection.Get<object>(ApiUrls.WorkflowRunLogs(repositoryId, runId), null, null).ConfigureAwait(false);
             var statusCode = response.HttpResponse.StatusCode;

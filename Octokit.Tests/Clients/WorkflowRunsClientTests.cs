@@ -482,7 +482,7 @@ namespace Octokit.Tests.Clients
 
         }
 
-        public class TheGetLogsUrlMethod
+        public class TheLogsUrlMethod
         {
             [Fact]
             public async Task RequestsCorrectUrlWithRepositoryName()
@@ -497,7 +497,7 @@ namespace Octokit.Tests.Clients
                 apiConnection.Connection.Returns(connection);
 
                 var client = new WorkflowRunsClient(apiConnection);
-                var result = await client.GetLogsUrl("fake", "repo", 1);
+                var result = await client.LogsUrl("fake", "repo", 1);
             }
 
             [Fact]
@@ -513,7 +513,7 @@ namespace Octokit.Tests.Clients
                 apiConnection.Connection.Returns(connection);
 
                 var client = new WorkflowRunsClient(apiConnection);
-                var result = await client.GetLogsUrl(1, 2);
+                var result = await client.LogsUrl(1, 2);
             }
 
             [Fact]
@@ -522,11 +522,11 @@ namespace Octokit.Tests.Clients
                 var connection = Substitute.For<IApiConnection>();
                 var client = new WorkflowRunsClient(connection);
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetLogsUrl(null, "name", 1));
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetLogsUrl("owner", null, 1));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.LogsUrl(null, "name", 1));
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.LogsUrl("owner", null, 1));
 
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetLogsUrl("", "name", 1));
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetLogsUrl("owner", "", 1));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.LogsUrl("", "name", 1));
+                await Assert.ThrowsAsync<ArgumentException>(() => client.LogsUrl("owner", "", 1));
 
             }
 

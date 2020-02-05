@@ -260,7 +260,7 @@ namespace Octokit.Tests.Reactive
             }
         }
 
-        public class TheGetLogsUrlMethod
+        public class TheLogsUrlMethod
         {
             [Fact]
             public async Task EnsuresNonEmptyArguments()
@@ -268,8 +268,8 @@ namespace Octokit.Tests.Reactive
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetLogsUrl("", "name", 1).ToTask());
-                await Assert.ThrowsAsync<ArgumentException>(() => client.GetLogsUrl("owner", "", 1).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.LogsUrl("", "name", 1).ToTask());
+                await Assert.ThrowsAsync<ArgumentException>(() => client.LogsUrl("owner", "", 1).ToTask());
             }
 
             [Fact]
@@ -278,8 +278,8 @@ namespace Octokit.Tests.Reactive
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetLogsUrl(null, "name", 1).ToTask());
-                await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetLogsUrl("owner", null, 1).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.LogsUrl(null, "name", 1).ToTask());
+                await Assert.ThrowsAsync<ArgumentNullException>(() => client.LogsUrl("owner", null, 1).ToTask());
             }
 
             [Fact]
@@ -288,8 +288,8 @@ namespace Octokit.Tests.Reactive
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
-                client.GetLogsUrl("fake", "repo", 1);
-                githubClient.Received().Action.Run.GetLogsUrl("fake", "repo", 1);
+                client.LogsUrl("fake", "repo", 1);
+                githubClient.Received().Action.Run.LogsUrl("fake", "repo", 1);
             }
 
             [Fact]
@@ -298,8 +298,8 @@ namespace Octokit.Tests.Reactive
                 var githubClient = Substitute.For<IGitHubClient>();
                 var client = new ObservableWorkflowRunsClient(githubClient);
 
-                client.GetLogsUrl(1, 2);
-                githubClient.Received().Action.Run.GetLogsUrl(1, 2);
+                client.LogsUrl(1, 2);
+                githubClient.Received().Action.Run.LogsUrl(1, 2);
             }
         }
     }

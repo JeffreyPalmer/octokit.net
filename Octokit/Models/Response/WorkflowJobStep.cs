@@ -12,7 +12,7 @@ namespace Octokit
         {
         }
 
-        public WorkflowJobStep(string name, string status, string conclusion, int number, DateTimeOffset startedAt, DateTimeOffset completedAt)
+        public WorkflowJobStep(string name, CheckStatus status, CheckConclusion? conclusion, int number, DateTimeOffset startedAt, DateTimeOffset completedAt)
         {
             Name = name;
             Status = status;
@@ -24,11 +24,8 @@ namespace Octokit
 
         public string Name { get; protected set; }
 
-        // FIXME: should be an enum
-        public string Status { get; protected set; }
-
-        // FIXME: should be an enum
-        public string Conclusion { get; protected set; }
+        public StringEnum<CheckStatus> Status { get; protected set; }
+        public StringEnum<CheckConclusion>? Conclusion { get; protected set; }
         public int Number { get; protected set; }
         public DateTimeOffset StartedAt { get; protected set; }
         public DateTimeOffset CompletedAt { get; protected set; }

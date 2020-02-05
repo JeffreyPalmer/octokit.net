@@ -12,7 +12,7 @@ namespace Octokit
         {
         }
 
-        public WorkflowJob(long id, long runId, string headSha, string url, string htmlUrl, string status, string conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt, string name, IReadOnlyList<WorkflowJobStep> steps)
+        public WorkflowJob(long id, long runId, string headSha, string url, string htmlUrl, CheckStatus status, CheckConclusion? conclusion, DateTimeOffset startedAt, DateTimeOffset completedAt, string name, IReadOnlyList<WorkflowJobStep> steps)
         {
             Id = id;
             RunId = runId;
@@ -33,11 +33,8 @@ namespace Octokit
         public string HeadSha { get; protected set; }
         public string Url { get; protected set; }
         public string HtmlUrl { get; protected set; }
-        // FIXME: should be an enum
-        public string Status { get; protected set; }
-        // FIXME: Should be an enum
-        public string Conclusion { get; protected set; }
-
+        public StringEnum<CheckStatus> Status { get; protected set; }
+        public StringEnum<CheckConclusion>? Conclusion { get; protected set; }
         public DateTimeOffset StartedAt { get; protected set; }
         public DateTimeOffset CompletedAt { get; protected set; }
         public string Name { get; protected set; }

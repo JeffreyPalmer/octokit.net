@@ -32,9 +32,9 @@ namespace Octokit.Reactive
 
         IObservable<bool> Cancel(long repositoryId, long runId);
 
-        IObservable<string> GetLogsUrl(string owner, string name, long runId);
+        IObservable<string> LogsUrl(string owner, string name, long runId);
 
-        IObservable<string> GetLogsUrl(long repositoryId, long runId);
+        IObservable<string> LogsUrl(long repositoryId, long runId);
 
 
     }

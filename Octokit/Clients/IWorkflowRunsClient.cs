@@ -33,9 +33,9 @@ namespace Octokit
 
         Task<bool> Cancel(long repositoryId, long runId);
 
-        Task<string> GetLogsUrl(string owner, string name, long runId);
+        Task<string> LogsUrl(string owner, string name, long runId);
 
-        Task<string> GetLogsUrl(long repositoryId, long runId);
+        Task<string> LogsUrl(long repositoryId, long runId);
 
     }
 }
